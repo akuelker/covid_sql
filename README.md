@@ -1,2 +1,2 @@
 # covid_sql
-sample Big Query SQL query from the covid data
+Big Query SQL query from the sample covid data
