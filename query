@@ -1,0 +1,22 @@
+SELECT p.geoname AS location
+, c.date AS most_recent_date
+, c.confirmed
+, c.deaths
+, c.recovered
+, c.active
+, p.population 
+, c.confirmed/p.population *100 AS percent_covid
+FROM bigquery-public-data.sdoh_bea_cainc30.fips AS p
+INNER JOIN bigquery-public-data.covid19_jhu_csse.summary AS c
+  ON p.geofips = c.fips
+INNER JOIN
+ (
+ SELECT MAX(date) AS date
+  , fips
+ FROM bigquery-public-data.covid19_jhu_csse.summary 
+ GROUP BY fips
+ ) AS c2
+ON c.fips = c2.fips
+AND c.date = c2.date
+WHERE p.year = '2018-01-01'
+
